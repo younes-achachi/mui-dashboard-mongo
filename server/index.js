@@ -37,15 +37,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // app.get('/:id', getUsers);
 // app.post('/post', postUser);
-app.use(
-	'/client',
-	function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+app.use((req, res, next) => {
+	const corsWhitelist = [ 'http://localhost:3000', '100.20.92.101', '44.225.181.72', '44.227.217.144' ];
+	if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+		res.header('Access-Control-Allow-Origin', req.headers.origin);
 		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		next();
-	},
-	clientRoutes
-);
+	}
+
+	next();
+});
+app.use('/client', clientRoutes);
 app.use(
 	'/general',
 	function(req, res, next) {
@@ -67,7 +68,7 @@ app.use(
 app.use(
 	'/sales',
 	function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+		res.header('Access-Control-Allow-Origin', '[http://localhost:3000,100.20.92.101,44.225.181.72,44.227.217.144]');
 		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 		next();
 	},
