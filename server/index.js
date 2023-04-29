@@ -47,33 +47,9 @@ app.use((req, res, next) => {
 	next();
 });
 app.use('/client', clientRoutes);
-app.use(
-	'/general',
-	function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		next();
-	},
-	generalRoutes
-);
-app.use(
-	'/management',
-	function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		next();
-	},
-	managementRoutes
-);
-app.use(
-	'/sales',
-	function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', '[http://localhost:3000,100.20.92.101,44.225.181.72,44.227.217.144]');
-		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		next();
-	},
-	salesRoutes
-);
+app.use('/general', generalRoutes);
+app.use('/management', managementRoutes);
+app.use('/sales', salesRoutes);
 
 app.use(cors());
 /*POSTGRES TEST QUERIES */
