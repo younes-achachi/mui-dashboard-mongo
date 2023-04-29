@@ -38,7 +38,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.get('/:id', getUsers);
 // app.post('/post', postUser);
 app.use((req, res, next) => {
-	const corsWhitelist = [ 'http://localhost:3000', '100.20.92.101', '44.225.181.72', '44.227.217.144' ];
+	const corsWhitelist = [
+		'http://localhost:3000',
+		'https://react-dashboard-1-v4q9.onrender.com',
+		'44.225.181.72',
+		'44.227.217.144'
+	];
 	if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
 		res.header('Access-Control-Allow-Origin', req.headers.origin);
 		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
