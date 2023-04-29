@@ -1,19 +1,19 @@
 import React from 'react';
 import FlexBetween from 'components/FlexBetween';
 import Header from 'components/Header';
-import { DownloadOutlined, Email, PointOfSale, PersonAdd, Traffic, DoneAllOutlined } from '@mui/icons-material';
+import { DownloadOutlined, Email, PointOfSale, PersonAdd, Traffic } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import BreakdownChart from 'components/BreakdownChart';
 import OverviewChart from 'components/OverviewChart';
 import { useGetDashboardQuery } from 'state/api';
 import StatBox from 'components/StatBox';
-import Breakdown from 'scenes/breakdown';
-import BreakdownChart from 'components/BreakdownChart';
+
 const Dashboard = () => {
 	const theme = useTheme();
-	const isNonMediumScreen = useMediaQuery('(min-width:1200px)');
+	const isNonMediumScreens = useMediaQuery('(min-width: 1200px)');
 	const { data, isLoading } = useGetDashboardQuery();
-	console.log('transaction', !isLoading ? data : '');
+
 	const columns = [
 		{
 			field: '_id',
@@ -44,10 +44,12 @@ const Dashboard = () => {
 			renderCell: (params) => `$${Number(params.value).toFixed(2)}`
 		}
 	];
+
 	return (
-		<Box m={'1.5rem 2.5rem'}>
-			<Header title="DASHBOARD" subtitle="Welcome to your Dashboard" />
+		<Box m="1.5rem 2.5rem">
 			<FlexBetween>
+				<Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+
 				<Box>
 					<Button
 						sx={{
@@ -58,38 +60,41 @@ const Dashboard = () => {
 							padding: '10px 20px'
 						}}
 					>
-						<DoneAllOutlined sx={{ mr: '10px' }} /> Download Reports
+						<DownloadOutlined sx={{ mr: '10px' }} />
+						Download Reports
 					</Button>
 				</Box>
 			</FlexBetween>
+
 			<Box
 				mt="20px"
 				display="grid"
-				gridTemplateColumns="repeat(12,1fr)"
+				gridTemplateColumns="repeat(12, 1fr)"
 				gridAutoRows="160px"
 				gap="20px"
-				sx={{ '& > div': { gridColumn: isNonMediumScreen ? undefined : 'span 12' } }}
+				sx={{
+					'& > div': { gridColumn: isNonMediumScreens ? undefined : 'span 12' }
+				}}
 			>
-				{/* row 1*/}
+				{/* ROW 1 */}
 				<StatBox
-					title="Total Custom "
+					title="Total Customers"
 					value={data && data.totalCustomers}
-					increse="+14%"
+					increase="+14%"
 					description="Since last month"
-					icon={<Email sx={{ color: theme.palette.secondary[600], fontSize: '26px' }} />}
+					icon={<Email sx={{ color: theme.palette.secondary[300], fontSize: '26px' }} />}
 				/>
-
 				<StatBox
 					title="Sales Today"
 					value={data && data.todayStats.totalSales}
-					increse="+21%"
-					description="Since last day"
-					icon={<PointOfSale sx={{ color: theme.palette.secondary[600], fontSize: '26px' }} />}
+					increase="+21%"
+					description="Since last month"
+					icon={<PointOfSale sx={{ color: theme.palette.secondary[300], fontSize: '26px' }} />}
 				/>
 				<Box
 					gridColumn="span 8"
 					gridRow="span 2"
-					background={theme.palette.background.alt}
+					backgroundColor={theme.palette.background.alt}
 					p="1rem"
 					borderRadius="0.55rem"
 				>
@@ -98,18 +103,19 @@ const Dashboard = () => {
 				<StatBox
 					title="Monthly Sales"
 					value={data && data.thisMonthStats.totalSales}
-					increse="+5%"
+					increase="+5%"
 					description="Since last month"
-					icon={<PersonAdd sx={{ color: theme.palette.secondary[600], fontSize: '26px' }} />}
+					icon={<PersonAdd sx={{ color: theme.palette.secondary[300], fontSize: '26px' }} />}
 				/>
 				<StatBox
 					title="Yearly Sales"
 					value={data && data.yearlySalesTotal}
-					increse="+43%"
-					description="Since last year"
-					icon={<Traffic sx={{ color: theme.palette.secondary[600], fontSize: '26px' }} />}
+					increase="+43%"
+					description="Since last month"
+					icon={<Traffic sx={{ color: theme.palette.secondary[300], fontSize: '26px' }} />}
 				/>
-				{/*row 2 */}
+
+				{/* ROW 2 */}
 				<Box
 					gridColumn="span 8"
 					gridRow="span 3"
@@ -134,7 +140,6 @@ const Dashboard = () => {
 							color: theme.palette.secondary[100],
 							borderTop: 'none'
 						},
-
 						'& .MuiDataGrid-toolbarContainer .MuiButton-text': {
 							color: `${theme.palette.secondary[200]} !important`
 						}
@@ -145,7 +150,6 @@ const Dashboard = () => {
 						getRowId={(row) => row._id}
 						rows={(data && data.transaction) || []}
 						columns={columns}
-						vertical
 					/>
 				</Box>
 				<Box
@@ -154,14 +158,16 @@ const Dashboard = () => {
 					backgroundColor={theme.palette.background.alt}
 					p="1.5rem"
 					borderRadius="0.55rem"
-				/>
-				<Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
-					Sales By Category
-				</Typography>
-				<BreakdownChart isDashboard={true} />
-				<Typography>
-					Breakdown of real states and information via category for revenue made for this year and total sales
-				</Typography>
+				>
+					<Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
+						Sales By Category
+					</Typography>
+					<BreakdownChart isDashboard={true} />
+					<Typography p="0 0.6rem" fontSize="0.8rem" sx={{ color: theme.palette.secondary[200] }}>
+						Breakdown of real states and information via category for revenue made for this year and total
+						sales.
+					</Typography>
+				</Box>
 			</Box>
 		</Box>
 	);

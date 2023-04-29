@@ -52,14 +52,14 @@ const navItems = [
 ];
 const Sidebar = ({ user, drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
 	const { pathname } = useLocation();
-	const [active, setActive] = useState('');
+	const [ active, setActive ] = useState('');
 	const navigate = useNavigate();
 	const theme = useTheme();
 	useEffect(
 		() => {
 			setActive(pathname.substring(1));
 		},
-		[pathname]
+		[ pathname ]
 	);
 	return (
 		<Box component="nav">
@@ -142,7 +142,7 @@ const Sidebar = ({ user, drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobi
 					</Box>
 					<Box position="absolute" bottom="2rem">
 						<Divider />
-						<FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
+						{/* <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
 							<Box
 								component="img"
 								alt="profile"
@@ -175,7 +175,7 @@ const Sidebar = ({ user, drawerWidth, isSidebarOpen, setIsSidebarOpen, isNonMobi
 									fontsize: '25px'
 								}}
 							/>
-						</FlexBetween>
+						</FlexBetween> */}
 					</Box>
 				</Drawer>
 			)}
