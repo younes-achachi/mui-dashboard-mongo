@@ -17,21 +17,8 @@ import Monthly from 'scenes/monthly';
 import BreakDown from 'scenes/breakdown';
 import Performance from 'scenes/performance';
 import Admin from 'scenes/admin';
+import ErrorPage from 'components/ErrorPage';
 function App() {
-	function ErrorPage() {
-		const error = useRouteError();
-		console.error(error);
-
-		return (
-			<div id="error-page">
-				<h1>Oops!</h1>
-				<p>Sorry, an unexpected error has occurred.</p>
-				<p>
-					<i>{error.statusText || error.message}</i>
-				</p>
-			</div>
-		);
-	}
 	const mode = useSelector((state) => state.global.mode);
 	const theme = useMemo(() => createTheme(themeSettings(mode)), [ mode ]);
 	return (
@@ -41,8 +28,8 @@ function App() {
 					<CssBaseline />
 					<Routes>
 						<Route element={<Layout />}>
-							<Route path="/" element={<Navigate to="/dashboard" replace />} />
-							<Route path="/dashboard" element={<Navigate to="/dashboard" replace />} />
+							<Route path="/" element={<Navigate to="/dashboard" />} />
+							<Route path="/dashboard" element={<Dashboard />} />
 							<Route path="/products" element={<Products />} />
 							<Route path="/customers" element={<Customers />} />
 							<Route path="/transactions" element={<Transactions />} />
@@ -53,6 +40,7 @@ function App() {
 							<Route path="/breakdown" element={<BreakDown />} />
 							<Route path="/admin" element={<Admin />} />
 							<Route path="/performance" element={<Performance />} />
+							<Route path="*" element={<ErrorPage />} />
 						</Route>
 					</Routes>
 				</ThemeProvider>
